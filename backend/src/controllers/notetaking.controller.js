@@ -41,7 +41,7 @@ res.status(200).json(updateNote)
     }
 }
 export const deleteNotes=async(req,res)=>{
-    const{title,content}=req.body
+    
     try {
         const deleteNote=await note.findByIdAndDelete(req.params.id)
         if(!deleteNote){
@@ -53,5 +53,15 @@ res.status(200).json(deleteNote)
         console.log(`error occured while deleting the node ${error}`);
         res.status(500).json({message:"internal server error "})
     }
+}
+export async function getNoteById(req, res) {
+  try {
+    const notes = await note.findById(req.params.id);
+    if (!notes) return res.status(404).json({ message: "Note not found!" });
+    res.json(notes);
+  } catch (error) {
+    console.error("Error in getNoteById controller", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 }
 //todo:find one specific note using id 
