@@ -6,7 +6,7 @@ const Navbar = () => {
     <header className="bg-base-300 border-b border-base-content/10">
     <div className="navbar bg-base-100 shadow-sm">
   <div className="flex-1">
-    <a className="text-[#047cf4fe] font-bold">ThinkBoard</a>
+    <a className="text-[#047cf4fe] font-bold">TaskPlanner</a>
   </div>
   <div className="flex-none">
     <Link to={"/create"} className="btn btn-teitiary">
