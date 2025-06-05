@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { ArrowLeftIcon, LoaderIcon, Trash2Icon } from "lucide-react";
 
 const NoteDetailPage = () => {
+  
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -14,7 +15,8 @@ const NoteDetailPage = () => {
 
   const { id } = useParams();
 
-  useEffect(() => { 
+
+  useEffect(() => {
     const fetchNote = async () => {
       try {
         const res = await api.get(`/notes/${id}`);
@@ -29,6 +31,7 @@ const NoteDetailPage = () => {
 
     fetchNote();
   }, [id]);
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5001";
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this note?")) return;
@@ -80,7 +83,10 @@ const NoteDetailPage = () => {
               <ArrowLeftIcon className="h-5 w-5" />
               Back to Notes
             </Link>
-            <button onClick={handleDelete} className="btn btn-error btn-outline">
+            <button
+              onClick={handleDelete}
+              className="btn btn-error btn-outline"
+            >
               <Trash2Icon className="h-5 w-5" />
               Delete Note
             </button>
@@ -109,12 +115,49 @@ const NoteDetailPage = () => {
                   placeholder="Write your note here..."
                   className="textarea textarea-bordered h-32"
                   value={note.content}
-                  onChange={(e) => setNote({ ...note, content: e.target.value })}
+                  onChange={(e) =>
+                    setNote({ ...note, content: e.target.value })
+                  }
                 />
               </div>
+              {note?.media && (
+                <div className="form-control mb-4">
+                  <label className="label">
+                    <span className="label-text">Media</span>
+                  </label>
+                  {note.media.endsWith(".mp4") ? (
+                    <a
+                      href={`${BASE_URL}${note.media}`}
+                      target="_blank" rel="noopener noreferrer"
+                     
+                    >
+                      <video controls className="w-full rounded">
+                        <source src={`${BASE_URL}${note.media}`} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    </a>
+                  ) : (
+                    <a
+                      href={`${BASE_URL}${note.media}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={`${BASE_URL}${note.media}`}
+                        alt="uploaded file"
+                        className="w-full cursor-pointer rounded"
+                      />
+                    </a>
+                  )}
+                </div>
+              )}
 
               <div className="card-actions justify-end">
-                <button className="btn btn-primary" disabled={saving} onClick={handleSave}>
+                <button
+                  className="btn btn-primary"
+                  disabled={saving}
+                  onClick={handleSave}
+                >
                   {saving ? "Saving..." : "Save Changes"}
                 </button>
               </div>

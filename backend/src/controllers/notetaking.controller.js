@@ -1,9 +1,21 @@
 import note from "../model/notes.model.js"
+import fetch from "node-fetch"
+; // replace with your chosen model
+
+import dotenv from "dotenv"
+dotenv.config()
+
+const API_KEY = process.env.HUGGINGFACE_AI_SECRET_KEY;
+console.log(API_KEY);
+
+const HUGGINGFACE_API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-2";
 export const notetaking =async (req,res)=>{
 const{title,content}=req.body
+ const mediaPath = req.file ? `/uploads/${req.file.filename}` : "";
 try{ const Note=await note.create({
     title,
     content,
+    media:mediaPath,
 })
 if(!Note){
     res.json({"message":"input is wrong formatted"})
@@ -64,4 +76,39 @@ export async function getNoteById(req, res) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
-//todo:find one specific note using id 
+export const AI_suggestions = async (req, res) => {
+  const { prompt } = req.body;
+
+  if (!prompt || prompt.trim() === "") {
+    return res.status(400).json({ error: "Prompt is required" });
+  }
+
+  try {
+    const response = await fetch("https://api.cohere.ai/v1/generate", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer a17MmpYMigIjuHdweuT9zVwaDyJY1KqsFNFuDAGU`, // or paste directly for testing
+        "Content-Type": "application/json",
+        "Cohere-Version": "2022-12-06" // Optional but recommended
+      },
+      body: JSON.stringify({
+        model: "", // Or "command-light", or leave out to use default
+        prompt,
+        max_tokens: 50,
+        temperature: 0.7,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: data.message || "Cohere API error" });
+    }
+
+    const suggestion = data.generations?.[0]?.text?.trim() || "No suggestion generated.";
+    res.status(200).json({ suggestion });
+  } catch (error) {
+    console.error("Cohere API error:", error);
+    res.status(500).json({ error: "Failed to get suggestion from Cohere" });
+  }
+};

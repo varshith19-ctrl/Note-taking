@@ -17,8 +17,11 @@ if (process.env.NODE_ENV !== "production") {
     })
   );
 }
- 
+ // Serve uploaded media files
+
 app.use(express.json()); 
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
 app.use(ratelimiter)
 app.use("/api/notes", notesRoutes);
 // app.use((req,res,next)=>{

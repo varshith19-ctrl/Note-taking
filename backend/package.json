@@ -17,7 +17,10 @@
     "dotenv": "^16.5.0",
     "express": "^4.18.2",
     "mongoose": "^8.14.3",
-    "notes-taking-app": "file:.."
+    "multer": "^2.0.1",
+    "node-fetch": "^3.3.2",
+    "notes-taking-app": "file:..",
+    "openai": "^5.0.2"
   },
   "devDependencies": {
     "cors": "^2.8.5",

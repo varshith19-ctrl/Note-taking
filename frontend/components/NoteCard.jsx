@@ -24,7 +24,7 @@ const NoteCard = ({ note, setNotes }) => {
     <Link
       to={`/note/${note._id}`}
       className="card bg-base-100 hover:shadow-lg transition-all duration-200 
-      border-t-4 border-solid border-[#69780a]"
+      border-t-4 border-solid border-[#b5b6af]"
     >
       <div className="card-body">
         <h3 className="card-title text-base-content">{note.title}</h3>
@@ -35,7 +35,7 @@ const NoteCard = ({ note, setNotes }) => {
           </span>
           <div className="flex items-center gap-1">
             <PenSquareIcon className="size-4" />
-            <button
+            <button aria-label={`delete notes titled ${note.title}`}
               className="btn btn-ghost btn-xs text-error"
               onClick={(e) => handleDelete(e, note._id)}
             >

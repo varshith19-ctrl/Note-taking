@@ -8,6 +8,9 @@ const noteSchema=new mongoose.Schema({
     content:{
         type:String,
         required:true
+    },
+    media:{
+        type:String
     }
 },{timestamps:true})
 const note =mongoose.model("note",noteSchema)
