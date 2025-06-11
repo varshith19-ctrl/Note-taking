@@ -8,7 +8,7 @@ dotenv.config()
 const API_KEY = process.env.HUGGINGFACE_AI_SECRET_KEY;
 console.log(API_KEY);
 
-const HUGGINGFACE_API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-2";
+// const HUGGINGFACE_API_URL = "https://api-inference.huggingface.co/models/EleutherAI/gpt-2";
 export const notetaking =async (req,res)=>{
 const{title,content}=req.body
  const mediaPath = req.file ? `/uploads/${req.file.filename}` : "";
@@ -87,15 +87,15 @@ export const AI_suggestions = async (req, res) => {
     const response = await fetch("https://api.cohere.ai/v1/generate", {
       method: "POST",
       headers: {
-        Authorization: `Bearer a17MmpYMigIjuHdweuT9zVwaDyJY1KqsFNFuDAGU`, // or paste directly for testing
+        Authorization: `Bearer ${API_KEY}`, // or paste directly for testing
         "Content-Type": "application/json",
         "Cohere-Version": "2022-12-06" // Optional but recommended
       },
       body: JSON.stringify({
         model: "", // Or "command-light", or leave out to use default
         prompt,
-        max_tokens: 50,
-        temperature: 0.7,
+        max_tokens: 1000,
+        temperature: 1.7,
       }),
     });
 

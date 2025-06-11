@@ -6,16 +6,15 @@ import HomePage from "../pages/Homepage";
 
 const App = () => {
   return (
-    <div className="relative h-full w-full">
-      <div className="relative h-full w-full bg-slate-950">
-        <div className="absolute bottom-0 left-[-20%] right-0 top-[-10%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]"></div>
-        <div className="absolute bottom-0 right-[-20%] top-[-10%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]"></div>
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-base-100 via-base-200 to-base-300">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
+      <div className="relative z-10">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/create" element={<CreatePage />} />
+          <Route path="/note/:id" element={<NoteDetailPage />} />
+        </Routes>
       </div>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/create" element={<CreatePage />} />
-        <Route path="/note/:id" element={<NoteDetailPage />} />
-      </Routes>
     </div>
   );
 };
