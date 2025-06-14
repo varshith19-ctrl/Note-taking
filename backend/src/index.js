@@ -7,9 +7,13 @@ import ratelimit from "./configuration/ratelimiter.js";
 import { ratelimiter } from "./middleware/ratelimit.middleware.js";
 import path from "path";  
 dotenv.config();
+import { fileURLToPath } from 'url';
 const app = express();
 // console.log(app);cl
-const __dirname = path.resolve();
+const PORT = process.env.PORT || 5001;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 if (process.env.NODE_ENV !== "production") {
   app.use(
     cors({
@@ -37,8 +41,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 connectDB().then(()=>{
-app.listen(process.env.PORT, () => {
-  console.log(`server is listening on port ${process.env.PORT}`);
+app.listen(PORT, () => {
+  console.log(`server is listening on port ${PORT}`);
 
 });
 })  
